@@ -1,25 +1,31 @@
 package main
 
 import (
-
- "github.com/gin-gonic/gin"
-  "github.com/joho/godotenv"
- "log"
+	"fmt"
+	"log"
+	"net/http"
+	"encoded/json"
+	"strconv"
+	"math/rand"
 )
 
-func init()  {
-	err := godotenv.Load()
-		if err != nil {
-		  log.Fatal("Error loading .env file")
-		}
+type Movie struct{
+	Id string `json:"id"`
+	Title string `json:"title"`
+	Director *Director `json:"director"`
+
 }
 
-func main() {
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "hjsfkjbfd",
-		})
-	})
-	r.Run() // listen and serve on 0.0.0.0:8080
+type Director struct{
+	firstName string
+	lastName string 
+}
+
+var movies[]Movie
+
+func main(){
+movies = append(movies, Movie{Id: "1", Title: "Interstallar", Director: &Director{firstName:"Christopher", lastName: "Nolan"}})
+movies= append(movies, Movie{Id: "2", Title: "Dune2", Director: &Director{firstName: "Denis", lastName: "Villenuve"} })
+
+
 }
