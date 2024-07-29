@@ -10,6 +10,19 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type movies struct{
-	id string
+type Movie struct{
+	Id string `json:"id"`
+	Title string `json:"title"`
+	Director string `json:"director"`
+}
+
+type Director struct {
+	firstName string `json:"firstname"`
+	lastName string `json:"lastname"`
+}
+
+var movies []Movie
+
+func main(){
+	
 }
