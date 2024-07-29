@@ -1,12 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
 	"encoded/json"
-	"math/rand"
+	"fmt"
 	"log"
+	"math/rand"
+	"net/http"
 	"strconv"
+
 	"github.com/gorilla/mux"
 )
 
@@ -24,5 +25,11 @@ type Director struct {
 var movies []Movie
 
 func main(){
-	
+	r:= mux.NewRouter()
+
+	r.HandleFunc("/movies", getmovie).Methods("GET")
+	r.HandleFunc("/movie{id}", getmovie).Methods("GET")
+	r.HandleFunc("/movie", createmovie).Methods("POST")
+	r.HandleFunc("/movies{id}", updatemovie).Methods("PATCH")
+	r.HandleFunc("/movies{id}",deletemovie).Methods("DELETE")
 }
