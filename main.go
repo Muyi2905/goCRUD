@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoded/json"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -9,7 +8,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/goccy/go-json"
 	"github.com/gorilla/mux"
 )
 
@@ -41,7 +39,7 @@ func deletemovie(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
-
+json.NewEncoder(w).Encode(movies)
 }
 
 func getmovie(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +48,7 @@ func getmovie(w http.ResponseWriter, r *http.Request) {
 
 	for _, item := range movies {
 		if item.Id == params["id"] {
-			json.NewEncoder().Encode(item)
+			json.NewEncoder(w).Encode(item)
 		}
 
 	}
