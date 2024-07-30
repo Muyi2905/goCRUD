@@ -54,6 +54,16 @@ func getmovie(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func createmovie(w http.ResponseWriter, r*http.Request){
+w.Header().Set("content-type", "application/json")
+var movie Movie
+json.NewDecoder(r.Body).Decode(&movie)
+movie.Id = strconv.Itoa(rand.Intn(10000000))
+movies = append(movies,movie )
+
+json.NewEncoder(w).Encode(movie)
+}
+
 func main() {
 	movies = append(movies, Movie{Id: "1", Title: "Interstallar", Director: &Director{firstName: "Christopher", lastName: "Nolan"}})
 	movies = append(movies, Movie{Id: "2", Title: "Dune2", Director: &Director{firstName: "Denis", lastName: "Villenuve"}})
