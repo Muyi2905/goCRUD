@@ -26,7 +26,7 @@ var movies []Movie
 
 func getmovies(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
-	json.NewEncoder(w)
+	json.NewEncoder(w).Encode(movies)
 }
 
 func deletemovie(w http.ResponseWriter, r *http.Request) {
@@ -64,17 +64,34 @@ movies = append(movies,movie )
 json.NewEncoder(w).Encode(movie)
 }
 
+func updatemovie(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json")
+    params := mux.Vars(r)
+    for index, item := range movies {
+        if item.Id == params["id"] {
+            movies = append(movies[:index], movies[index+1:]...)
+            var movie Movie
+            _ = json.NewDecoder(r.Body).Decode(&movie)
+            movie.Id = params["id"]
+            movies = append(movies, movie)
+            json.NewEncoder(w).Encode(movie)
+            return
+        }
+    }
+    json.NewEncoder(w).Encode(movies)
+}
+
 func main() {
 	movies = append(movies, Movie{Id: "1", Title: "Interstallar", Director: &Director{firstName: "Christopher", lastName: "Nolan"}})
 	movies = append(movies, Movie{Id: "2", Title: "Dune2", Director: &Director{firstName: "Denis", lastName: "Villenuve"}})
 
 	r := mux.NewRouter()
 	r.HandleFunc("/movies", getmovies).Methods("GET")
-	r.HandleFunc("/movies{id}", getmovie).Methods("GET")
+	r.HandleFunc("/movies/{id}", getmovie).Methods("GET")
 	r.HandleFunc("/movies", createmovie).Methods("POST")
-	r.HandleFunc("/movies{id}", updatemovie).Methods("PATCH")
-	r.HandleFunc("/movies{id}", deletemovie).Methods("DELETE")
+	r.HandleFunc("/movies/{id}", updatemovie).Methods("PATCH")
+	r.HandleFunc("/movies/{id}", deletemovie).Methods("DELETE")
 
 	fmt.Println("server is running on port 8080")
-	log.Fatal(http.ListenAndServe(";8080", r))
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
