@@ -2,12 +2,14 @@ package main
 
 import (
 	"encoded/json"
+	"encoding/json"
 	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
 
+	"github.com/goccy/go-json"
 	"github.com/gorilla/mux"
 )
 
@@ -26,9 +28,18 @@ type Director struct{
 var movies[]Movie
 
 func getmovies(w http.ResponseWriter, r*http.Request){
-	if err:= r.URL.Path!= "GET"; err!=nil{
-http.Error(w, "error", http.StatusNotFound)
-	}
+w.Header().Set("content-type", "application/json")
+json.NewEncoder(w)
+}
+
+func deletemovie(w http.ResponseWriter, r*http.Request){
+	w.Header().Set("content-type", "application/json")
+params:= mux.Vars(r)
+
+for index,item := range movies{
+if item.Id == params["Id"]
+
+}
 }
 
 func main(){
