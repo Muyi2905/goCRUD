@@ -63,7 +63,7 @@ func main() {
 	r.HandleFunc("/movies{id}", getmovie).Methods("GET")
 	r.HandleFunc("/movies", createmovie).Methods("POST")
 	r.HandleFunc("/movies{id}", updatemovie).Methods("PATCH")
-	r.Handle("/movies{id}", deletemovie).Methods("DELETE")
+	r.HandleFunc("/movies{id}", deletemovie).Methods("DELETE")
 
 	fmt.Println("server is running on port 8080")
 	log.Fatal(http.ListenAndServe(";8080", r))
